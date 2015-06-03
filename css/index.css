@@ -1,0 +1,292 @@
+﻿body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    outline: none;
+}
+a:link,
+a:visited{
+    color: #D0E4EF;
+    text-decoration: underline;
+}
+strong, b{
+    font-weight: bold;
+}
+table{
+    border-spacing: 0;
+}
+.common-input{
+    color: #222;
+    padding: 8px;
+    outline: none;
+    font-size: 1.2em;
+    border-radius: 4px;
+    background: #F7F7F7;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    font-family: "Helvetica Neue";
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #E7E6E6;
+    border-bottom: 1px solid #E7E6E6;
+}
+.common-btn{
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    background: #3F9D4A;
+    border: none;
+    width: auto;
+    overflow: visible;
+    font-size: 18px;
+    color: #FFF;
+    padding: 7px 16px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+.form-group{
+    position: relative;
+    margin-bottom: 28px;
+}
+.form-group .tosignup{
+    color: #969696;
+}
+.form-group .tosignup a{
+    color: #ed145b;
+    text-decoration: none;
+}
+.invalid{
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    width: 290px;
+    height: 1.5em;
+    color: #999;
+    margin-top: 4px;
+    line-height: 1.5;
+    white-space: normal;
+    word-break: normal;
+    display: none;
+}
+.mainWrap{
+    width: 600px;
+    height: 500px;
+    padding: 10px;
+}
+.hideItem, .ng-hide{
+    display: none;
+}
+.view{
+    width: 552px;
+    height: 479px;
+    padding: 10px;
+}
+.ui-grid-viewport{
+    height: 286px !important;
+}
+.registerView,
+.mainView,
+.loginView{
+    position: relative;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.075);
+    box-shadow: 0 0 4px rgba(0,0,0,.075);
+    background: rgba(255,255,255,.85);
+    border: 1px solid #ededed;
+    padding: 0 23px;
+    color: #333;
+}
+.loginView .selectFileView{
+    z-index: 2;
+    position: absolute;
+    top: 210px;
+    left: 90px;
+    padding: 0 10px 20px 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.selectFileView .selectFileViewMid{
+    max-height: 300px;
+    border: 1px solid #d4d4d4;
+}
+.selectFileView .selectFileViewInner{
+    background: #f3f3f3;
+    border: 1px solid #d4d4d4;
+    position: relative;
+    white-space: nowrap;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+}
+.selectFileView .selectFileViewItems{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.selectFileViewInner ul li{
+    padding: 8px;
+    cursor: pointer;
+}
+.selectFileViewInner ul li:not(:last-child){
+    border-bottom: 1px solid #d4d4d4;
+}
+.mainView .mainTit,
+.registerView .registerTit,
+.loginView .loginTit{
+    margin-bottom: 15px;
+    line-height: 60px;
+    height: 30px;
+}
+.mainView .quitLogin,
+.registerTit .tologin,
+.loginTit .tosignup{
+    color: #969696;
+    float: right;
+}
+.quitLogin h2{
+    font-size: 14px;
+    display: inline-block;
+}
+.mainTit a,
+.registerTit a,
+.loginTit a{
+    color: #ed145b;
+    text-decoration: none;
+}
+.mainView .main-list{
+    width: 552px;
+    height: 383px;
+    overflow: auto;
+}
+.mainView .mainEditor{
+    width: 100%;
+    height: 40px;
+}
+.mainView .main-list-title{
+    background-color: #ffffff;
+}
+.input-xp{
+    width: 535px;
+}
+.input-xp:focus{
+    -webkit-box-shadow: 0 0 4px 1px rgba(32,157,230,.4);
+    box-shadow: 0 0 4px 1px rgba(32,157,230,.4);
+    border-color: #A5D4ED;
+}
+.popup{
+    background: #FFFFFF;
+}
+.showDataView,
+.dataView{
+    position: fixed;
+    top: 60px;
+    left: 110px;
+    opacity: 1;
+    z-index: 11000;
+    box-shadow: 0 0 4px rgba(0,0,0,.075);
+}
+.showDataView{
+    top: 80px;
+    left: 45px;
+}
+.showDataView .showDataView-tableContainer{
+    width: 100%;
+    height: 320px;
+    overflow: auto;
+}
+.dataView .addForm-group{
+    width: 100%;
+    height: 350px;
+    overflow: auto;
+}
+.selectFileViewHeader,
+.showDataView-header,
+.dataView-header{
+    height: 15px;
+    padding: 10px 18px 14px 18px;
+    border-bottom: 1px solid #CCC;
+    border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    background: url(../img/header-bg.png);
+}
+.selectFileViewHeader{
+    padding: 5px 18px 14px 10px;
+}
+.selectFileViewHeader h2,
+.showDataView-header h2,
+.dataView-header h2{
+    color: #444;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    padding-bottom: 4px;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.selectFileViewHeader .model-close{
+    top: 10px;
+    right: 20px;
+}
+.model-close{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 14px;
+    height: 14px;
+    background: url(../img/model_close.png);
+    z-index: 2;
+    display: block;
+}
+.dataView-group{
+    position: relative;
+    width: 364px;
+    height: 45px;
+    padding: 10px 20px;
+    margin-bottom: 0;
+    text-align: right;
+}
+.dataView-group .invalid{
+    top: auto;
+    left: auto;
+    right: 20px;
+}
+.dataView-btn-group{
+    width: 254px;
+    overflow: hidden;
+    padding: 12px 20px 12px 130px;
+}
+.dataView-btn-group input{
+    float: right;
+}
+.dataView-group label{
+    float: left;
+    width: 90px;
+    padding-top: 8px;
+    color: #222;
+    font-size: 16px;
+    text-align: left;
+    display: block;
+}
+.dataView-group .dataView-input{
+    width: 244px;
+}
+.dataView-group .dataView-select {
+    width: 262px;
+}
