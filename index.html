@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html ng-app="mainApp">
+    <head>
+        <meta charset="utf-8">
+        <title>KeyMan</title>
+        <link type="text/css" rel="stylesheet" href="dist/publish/css/keyman.min.css" />
+        <script type="text/javascript" src="dist/publish/js/keyman.min.js"></script>
+    </head>
+    <body>
+        <div class="mainWrap">
+            <!-- login form start -->
+            <div ng-hide="localStorage.viewStatus.viewActType != 'login'" ng-controller="loginCtrl" class="view loginView">
+                <div ng-hide="localStorage.viewStatus.hideImportFileView" class="importFileView">
+                    <div class="importFileViewHeader">
+                        <h2>导入数据</h2>
+                        <a class="closeBtn" href="#" ng-click="hideImportFileViewFn();"></a>
+                    </div>
+                    <div class="importFileViewContent">
+                        <div class="importFileViewInner">
+                            <ul class="importFileViewItems">
+                                <li>
+                                    <form>
+                                        <!-- upload input file directive -->
+                                        <div upload-file-input></div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="loginHeader">
+                    <div class="headerItem">还没有账号？
+                        <a href="#" ng-click="toRegisterViewFn();">立即注册并登录</a>
+                    </div>
+                </div>
+                <form name="loginForm" w5c-form-validate="validateOptions" novalidate>
+                    <div class="form-group">
+                        <div>
+                            <input ng-model="entity.name" required="" name="name" class="form-input common-input" type="text" placeholder="用户名">
+                        </div>
+                        <div class="invalid">
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input ng-model="entity.password" required="" name="password" class="form-input common-input" type="password" placeholder="密码">
+                        </div>
+                        <div class="invalid">
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="headerItem">已有数据？
+                            <a href="#" ng-click="showImportDataViewFn();">立即导入</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input class="form-submit common-btn" type="submit" w5c-form-submit="login();" value="提交">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- login form end -->
+
+            <!-- register form start -->
+            <div ng-hide="localStorage.viewStatus.viewActType != 'register'" ng-controller="registerCtrl" class="view registerView">
+                <div class="registerHeader">
+                    <div class="headerItem">已有账号？
+                        <a href="#" ng-click="toLoginViewFn();">返回登录</a>
+                    </div>
+                </div>
+                <form name="registerForm" w5c-form-validate="validateOptions" novalidate>
+                    <div class="form-group">
+                        <div>
+                            <input ng-model="entity.name" required="" name="name" class="form-input common-input" type="text" placeholder="用户名">
+                        </div>
+                        <div class="invalid">
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input ng-model="entity.password" required="" name="password" class="form-input common-input" type="password" placeholder="密码">
+                        </div>
+                        <div class="invalid">
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input ng-model="entity.repeatPassword" required="" w5c-repeat="password" name="repeatPassword" class="form-input common-input" type="password" placeholder="确认密码">
+                        </div>
+                        <div class="invalid">
+                            <div class="msg"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input class="form-submit common-btn" type="submit" w5c-form-submit="register();" value="提交">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- register form end -->
+
+            <!-- main start -->
+            <div ng-hide="localStorage.viewStatus.viewActType != 'main'" ng-controller="mainCtrl" class="view mainView">
+                <div class="mainHeader">
+                    <div class="mainHeaderItem">
+                        <h2>你好，{{ localStorage.currentUserData.loginName }}</h2>
+                        <a href="#" ng-click="quitLogin();">退出登录</a>
+                    </div>
+                </div>
+                <div class="mainEditorItem">
+                    <input class="form-add-btn common-btn" type="button" ng-click="showAddView();" value="新增">
+                    <input class="form-add-btn common-btn" type="button" ng-click="deleteSelected();" value="删除">
+                    <input class="form-add-btn common-btn" type="button" ng-click="showSelected();" value="查看">
+                    <input class="form-add-btn common-btn" type="button" ng-click="exportAllData();" value="导出所有数据">
+                </div>
+                <div class="mainGridContent">
+                    <div ui-grid="localStorage.gridOptions" ui-grid-delete ui-grid-edit ui-grid-selection ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns class="grid"></div>
+                </div>
+            </div>
+            <!-- main end -->
+
+            <!-- addDataView start -->
+            <div ng-hide="localStorage.viewStatus.hideAddDataView" ng-controller="dataCtrl" class="addDataView popup">
+                <div class="addDataViewContent">
+                    <div class="addDataViewHeader">
+                        <h2>添加记录</h2>
+                        <a class="closeBtn" href="#" ng-click="hideAddDataViewFn();"></a>
+                    </div>
+                    <div class="addDataFormContent">
+                        <form name="addDataForm" w5c-form-validate="validateOptions" novalidate>
+                            <div class="addDataViewGroup form-group">
+                                <div>
+                                    <label>账号类型</label>
+                                    <select class="common-input addDataViewSelect" ng-model="localStorage.currentUserData.currentAddData.accountType">
+                                        <option value="normal">常规登录</option>
+                                        <option value="email">电子邮箱</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="addDataViewGroup form-group">
+                                <div>
+                                    <label>用户名</label>
+                                    <input class="addDataViewInput common-input" ng-model="localStorage.currentUserData.currentAddData.name" name="name" type="text">
+                                </div>
+                                <div class="invalid">
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="addDataViewGroup form-group">
+                                <div>
+                                    <label>密码</label>
+                                    <input class="addDataViewInput common-input" ng-model="localStorage.currentUserData.currentAddData.password" name="password" type="text">
+                                </div>
+                                <div class="invalid">
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="addDataViewGroup form-group">
+                                <div>
+                                    <label>网址</label>
+                                    <input class="addDataViewInput common-input" ng-model="localStorage.currentUserData.currentAddData.url" name="url" type="url">
+                                </div>
+                                <div class="invalid">
+                                    <div class="msg"></div>
+                                </div>
+                            </div>
+                            <div class="addDataViewGroup form-group">
+                                <div>
+                                    <label>备注</label>
+                                    <input class="addDataViewInput common-input" ng-model="localStorage.currentUserData.currentAddData.remark" name="remark" type="text">
+                                </div>
+                            </div>
+                            <div class="addDataViewBtnContent">
+                                <input w5c-form-submit="addDataFn();" class="common-btn" type="submit" value="提交">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- addDataView end -->
+
+            <!-- selectedDataView start -->
+            <div ng-hide="localStorage.viewStatus.hideSelectedDataView" ng-controller="showDataCtrl" class="selectedDataView popup">
+                <div class="selectedDataViewContent">
+                    <div class="selectedDataViewHeader">
+                        <h2>查看记录</h2>
+                        <a class="closeBtn" href="#" ng-click="hideSelectedDataViewFn();"></a>
+                    </div>
+                    <div class="selectedDataViewContainer">
+                        <table class="selectedDataViewTable">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 79px;">帐号类型</th>
+                                    <th style="width: 106px;">账号</th>
+                                    <th style="width: 106px;">密码</th>
+                                    <th style="width: 106px;">网址</th>
+                                    <th style="width: 79px;">备注</th>
+                                </tr>
+                                <tr ng-repeat="data in localStorage.currentUserData.selectedDataList">
+                                    <td>
+                                        <label ng-if="data.accountType == 'normal'">常规登录</label>
+                                        <label ng-if="data.accountType == 'email'">电子邮箱</label>
+                                    </td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.password }}</td>
+                                    <td>{{ data.url }}</td>
+                                    <td>{{ data.remark }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- selectedDataView end -->
+        </div>
+    </body>
+</html>

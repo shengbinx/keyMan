@@ -1,0 +1,274 @@
+﻿body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    outline: none;
+}
+a:link, a:visited{
+    color: #D0E4EF;
+    text-decoration: underline;
+}
+strong, b{
+    font-weight: bold;
+}
+table{
+    border-spacing: 0;
+}
+.common-input{
+    color: #222;
+    padding: 8px;
+    outline: none;
+    font-size: 1.2em;
+    border-radius: 4px;
+    background: #F7F7F7;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    font-family: "Helvetica Neue";
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #E7E6E6;
+    border-bottom: 1px solid #E7E6E6;
+}
+.common-btn{
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    background: #3F9D4A;
+    border: none;
+    width: auto;
+    overflow: visible;
+    font-size: 18px;
+    color: #FFF;
+    padding: 7px 16px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+.form-group{
+    position: relative;
+    margin-bottom: 28px;
+}
+.form-group .headerItem{
+    color: #969696;
+}
+.form-group .headerItem a{
+    color: #ed145b;
+    text-decoration: none;
+}
+.invalid{
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    width: 290px;
+    height: 1.5em;
+    color: #999;
+    margin-top: 4px;
+    line-height: 1.5;
+    white-space: normal;
+    word-break: normal;
+    display: none;
+}
+.mainWrap{
+    width: 600px;
+    height: 500px;
+    padding: 10px;
+}
+.hideItem, .ng-hide{
+    display: none;
+}
+.view{
+    width: 552px;
+    height: 479px;
+    padding: 10px;
+}
+.ui-grid-viewport{
+    height: 286px !important;
+}
+.registerView, .mainView, .loginView{
+    position: relative;
+    color: #333;
+    padding: 0 23px;
+    border: 1px solid #ededed;
+    background: rgba(255,255,255,.85);
+    box-shadow: 0 0 4px rgba(0,0,0,.075);
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.075);
+}
+.loginView .importFileView{
+    z-index: 2;
+    position: absolute;
+    top: 210px;
+    left: 90px;
+    padding: 0 10px 20px 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.importFileView .importFileViewContent{
+    max-height: 300px;
+    border: 1px solid #d4d4d4;
+}
+.importFileView .importFileViewInner{
+    background: #f3f3f3;
+    border: 1px solid #d4d4d4;
+    position: relative;
+    white-space: nowrap;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 12px 12px -14px rgba(0, 0, 0, 0.2);
+}
+.importFileView .importFileViewItems{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.importFileViewInner ul li{
+    padding: 8px;
+    cursor: pointer;
+}
+.importFileViewInner ul li:not(:last-child){
+    border-bottom: 1px solid #d4d4d4;
+}
+.mainView .mainHeader, .registerView .registerHeader, .loginView .loginHeader{
+    margin-bottom: 15px;
+    line-height: 60px;
+    height: 30px;
+}
+.mainView .mainHeaderItem, .registerHeader .headerItem, .loginHeader .headerItem{
+    color: #969696;
+    float: right;
+}
+.mainHeaderItem h2{
+    font-size: 14px;
+    display: inline-block;
+}
+.mainHeader a, .registerHeader a, .loginHeader a{
+    color: #ed145b;
+    text-decoration: none;
+}
+.mainView .mainGridContent{
+    width: 552px;
+    height: 383px;
+    overflow: auto;
+}
+.mainView .mainEditorItem{
+    width: 100%;
+    height: 40px;
+}
+.form-input{
+    width: 535px;
+}
+.form-input:focus{
+    -webkit-box-shadow: 0 0 4px 1px rgba(32,157,230,.4);
+    box-shadow: 0 0 4px 1px rgba(32,157,230,.4);
+    border-color: #A5D4ED;
+}
+.popup{
+    background: #FFFFFF;
+}
+.selectedDataView, .addDataView{
+    position: fixed;
+    top: 60px;
+    left: 110px;
+    opacity: 1;
+    z-index: 11000;
+    box-shadow: 0 0 4px rgba(0,0,0,.075);
+}
+.selectedDataView{
+    top: 80px;
+    left: 10px;
+}
+.selectedDataView .selectedDataViewContainer{
+    width: 100%;
+    height: 320px;
+    overflow: auto;
+}
+.addDataView .addDataFormContent{
+    width: 100%;
+    height: 350px;
+    overflow: auto;
+}
+.importFileViewHeader, .selectedDataViewHeader, .addDataViewHeader{
+    height: 15px;
+    padding: 10px 18px 14px 18px;
+    border-bottom: 1px solid #CCC;
+    border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    background: url(../img/header-bg.png);
+}
+.importFileViewHeader{
+    padding: 5px 18px 14px 10px;
+}
+.importFileViewHeader h2, .selectedDataViewHeader h2, .addDataViewHeader h2{
+    color: #444;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 3px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    padding-bottom: 4px;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.importFileViewHeader .closeBtn{
+    top: 10px;
+    right: 20px;
+}
+.closeBtn{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 14px;
+    height: 14px;
+    background: url(../img/model_close.png);
+    z-index: 2;
+    display: block;
+}
+.addDataViewGroup{
+    position: relative;
+    width: 364px;
+    height: 45px;
+    padding: 10px 20px;
+    margin-bottom: 0;
+    text-align: right;
+}
+.addDataViewGroup .invalid{
+    top: auto;
+    left: auto;
+    right: 20px;
+}
+.addDataViewBtnContent{
+    width: 254px;
+    overflow: hidden;
+    padding: 12px 20px 12px 130px;
+}
+.addDataViewBtnContent input{
+    float: right;
+}
+.addDataViewGroup label{
+    float: left;
+    width: 90px;
+    padding-top: 8px;
+    color: #222;
+    font-size: 16px;
+    text-align: left;
+    display: block;
+}
+.addDataViewGroup .addDataViewInput{
+    width: 244px;
+}
+.addDataViewGroup .addDataViewSelect{
+    width: 262px;
+}
