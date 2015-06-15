@@ -2,7 +2,7 @@
     "name": "KeyMan",
     "version": "1.0.0",
     "manifest_version": 2,
-    "description": "account management widget",
+    "description": "基于本地存储以及支持数据导入导出的帐号密码管理工具",
     "icons": {
         "48": "icon.png"
     },

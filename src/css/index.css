@@ -158,7 +158,7 @@ table{
 .mainView .mainGridContent{
     width: 552px;
     height: 383px;
-    overflow: auto;
+    overflow: hidden;
 }
 .mainView .mainEditorItem{
     width: 100%;

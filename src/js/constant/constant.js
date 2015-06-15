@@ -65,8 +65,8 @@ angular.module("constantApp", []).constant("keyManConstant", {
             paginationPageSize: 9,
             // 列定义
             columnDefs: [
-                {name: 'id', enableCellEdit: false, width: '10%', minWidth: 53},
-                {name: 'accountType', displayName: '账号类型', width: '15%', editableCellTemplate: 'ui-grid/dropdownEditor',
+                {name: 'id', enableCellEdit: false, width: '8%', minWidth: 53},
+                {name: 'accountType', displayName: '账号类型', width: '20%', editableCellTemplate: 'ui-grid/dropdownEditor',
                     cellFilter: 'accountTypeFilter', editDropdownValueLabel: 'accountType', editDropdownOptionsArray: [
                         {id: 'normal', accountType: '常规登录'},
                         {id: 'email', accountType: '电子邮箱'}
@@ -79,7 +79,7 @@ angular.module("constantApp", []).constant("keyManConstant", {
                     minWidth: 106
                 },
                 {name: 'url', displayName: '网址', width: '20%', cellTooltip: true, minWidth: 106},
-                {name: 'remark', displayName: '备注', width: '15%', cellTooltip: true, minWidth: 79}
+                {name: 'remark', displayName: '备注', width: '20%', cellTooltip: true, minWidth: 79}
             ],
             // 显示的数据列表
             data: []
