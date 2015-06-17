@@ -195,7 +195,8 @@ table{
 .addDataView .addDataFormContent{
     width: 100%;
     height: 350px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .importFileViewHeader, .selectedDataViewHeader, .addDataViewHeader{
     height: 15px;

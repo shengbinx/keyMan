@@ -19,9 +19,10 @@ angular.module("mainApp", [
         //set gridApi on scope
         $rootScope.gridApi = gridApi;
         // 编辑列数据回调
-        gridApi.edit.on.afterCellEdit($rootScope, function (rowEntity, colDef, newValue, oldValue){
+        gridApi.edit.on.afterCellEdit($rootScope, function (rowEntity){
             userService.edit($rootScope.localStorage.currentUserData.loginName, rowEntity, function (data){
                 $rootScope.localStorage.gridOptions.data = data;
+                $rootScope.localStorage.currentUserData.selectedUUIDList = [];
             });
         });
         // 选中列回调

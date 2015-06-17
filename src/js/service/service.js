@@ -1,136 +1,137 @@
 angular.module("serviceApp", [
     "constantApp",
     "factoryApp"
-]).service("userService", ["$rootScope", "uuidFactory", "storageFactory", "cookieFactory", "idFactory", "passwordFactory", "keyManConstant", "downloadFactory", "stringFactory",
-    function ($rootScope, uuidFactory, storageFactory, cookieFactory, idFactory, passwordFactory, keyManConstant, downloadFactory, stringFactory){
+]).service("userService", [
+    "$rootScope",
+    "uuidFactory",
+    "storageFactory",
+    "cookieFactory",
+    "idFactory",
+    "passwordFactory",
+    "keyManConstant",
+    "downloadFactory",
+    "stringFactory",
+    "userFactory",
+    "encryptFactory",
+    function ($rootScope, uuidFactory, storageFactory, cookieFactory, idFactory, passwordFactory, keyManConstant, downloadFactory, stringFactory, userFactory, encryptFactory){
         var service = {
             isLogin: function (success){
-                var loginUser = cookieFactory.get(keyManConstant.loginKey),
-                    user = storageFactory.get(loginUser),
-                    isLogin = (loginUser !== "null" && loginUser !== undefined),
+                var loginUser = cookieFactory.get(keyManConstant["CONSTANTS"]["LOGIN_KEY"]),
+                    userData = storageFactory.get(loginUser),
+                    userList = encryptFactory.decryptionList(userData ? userData.list : []),
+                    isLogin = (loginUser != undefined && loginUser != "null"),
                     data = {
                         isLogin: isLogin,
                         loginUser: loginUser,
-                        list: (user ? user.list : [])
+                        list: userList
                     };
                 (typeof success === "function") && success.call(null, data);
             },
             getItemByUuid: function (uuid){
-                var user = $rootScope.localStorage.currentUserData.loginName,
-                    items = storageFactory.get(user).list;
-                for (var i=0,l=items.length; i<l; i++){
+                var items = $rootScope.localStorage.gridOptions.data, i = 0, l = items.length,
+                    result = null;
+                while (i < l){
                     var item = items[i];
-                    if (uuid === item.uuid){
-                        return item;
+                    if (uuid == item.uuid){
+                        result = {
+                            item: item,
+                            index: i
+                        };
+                        return result;
                     }
+                    i++;
                 }
-                return null;
+                return result;
             },
             add: function (loginUser, currentData, success){
-                var user = storageFactory.get(loginUser);
-                user.list.push({
-                    uuid: uuidFactory.generate(),
-                    accountType: currentData.accountType || "normal",
-                    name: currentData.name,
-                    password: currentData.password,
-                    passwordStars: passwordFactory.generateStars(currentData.password),
-                    url: currentData.url || "",
-                    remark: currentData.remark || ""
-                });
-                idFactory.sorted(user.list);
-                storageFactory.save(loginUser, user);
-                (typeof success === "function") && success.call(null, user.list);
+                var userData = storageFactory.get(loginUser),
+                    userList = userData.list;
+                userList.push(userFactory.create(currentData));
+
+                idFactory.sorted(userList);
+                storageFactory.save(loginUser, userData);
+
+                userList = encryptFactory.decryptionList(userList);
+                (typeof success === "function") && success.call(null, userList);
             },
             edit: function (loginUser, currentData, success){
-                var user = storageFactory.get(loginUser),
-                    list = user.list,
-                    uuid = currentData.uuid;
+                var userData = storageFactory.get(loginUser),
+                    userList = userData.list,
+                    result = service.getItemByUuid(currentData.uuid);
+                if (result){
+                    userList.splice(result.index, 1, userFactory.create(currentData));
+                    idFactory.sorted(userList);
+                    storageFactory.save(loginUser, userData);
 
-                for (var i=list.length-1,l=0; i>=l; i--){
-                    var item = list[i];
-                    if (uuid === item.uuid){
-                        item.accountType = currentData.accountType || "normal",
-                        item.name = currentData.name;
-                        item.password = currentData.password;
-                        item.passwordStars = passwordFactory.generateStars(currentData.password);
-                        item.url = currentData.url || "";
-                        item.remark = currentData.remark || "";
-
-                        idFactory.sorted(user.list);
-                        storageFactory.save(loginUser, user);
-                        (typeof success === "function") && success.call(null, list);
-                        break;
-                    }
+                    userList = encryptFactory.decryptionList(userList);
+                    (typeof success === "function") && success.call(null, userList);
                 }
             },
             delete: function (loginUser, uuid, success){
-                var user = storageFactory.get(loginUser),
-                    list = user.list;
+                var userData = storageFactory.get(loginUser),
+                    userList = userData.list,
+                    result = service.getItemByUuid(uuid);
+                if (result){
+                    userList.splice(result.index, 1);
+                    idFactory.sorted(userList);
+                    storageFactory.save(loginUser, userData);
 
-                for (var i=list.length-1,l=0; i>=l; i--){
-                    var item = list[i];
-                    if (uuid === item.uuid){
-                        list.splice(i, 1);
-                        idFactory.sorted(user.list);
-                        storageFactory.save(loginUser, user);
-                        (typeof success === "function") && success.call(null, list);
-                        break;
-                    }
+                    userList = encryptFactory.decryptionList(userList);
+                    (typeof success === "function") && success.call(null, userList);
                 }
             },
             deleteSelected: function (loginUser, success){
-                var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList;
-                for (var i= 0,l=uuids.length;i<l;i++){
+                var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList, i = uuids.length - 1;
+                while (i >= 0){
                     var uuid = uuids[i];
                     service.delete(loginUser, uuid);
                     service.removeSelectedData(uuid);
+                    i--;
                 }
                 (typeof success === "function") && success.call(null, storageFactory.get(loginUser).list);
             },
             quit: function (success){
-                cookieFactory.save(keyManConstant.loginKey, null);
+                cookieFactory.save(keyManConstant["CONSTANTS"]["LOGIN_KEY"], null);
                 (typeof success === "function") && success.call();
             },
             login: function (name, password, success, error){
-                var msg = "";
                 if (service.isExists(name)){
-                    var user = storageFactory.get(name);
-                    if (password === user.password){
-                        cookieFactory.save(keyManConstant.loginKey, name);
-                        (typeof success === "function") && success.call(null, user);
+                    var userData = storageFactory.get(name),
+                        realPassword = encryptFactory.decryption(userData.password);
+                    if (password === realPassword){
+                        cookieFactory.save(keyManConstant["CONSTANTS"]["LOGIN_KEY"], name);
+                        userData.list = encryptFactory.decryptionList(userData.list);
+                        (typeof success === "function") && success.call(null, userData);
                     } else {
-                        msg = "密码错误，请重新输入！";
-                        (typeof error === "function") && error.call(null, msg);
+                        (typeof error === "function") && error.call(null, keyManConstant["CONSTANTS"]["TIPS"]["ACCOUNT"]["LOGIN"]["ERROR_PASSWORD"]);
                     }
                 } else {
-                    msg = "用户名不存在，请重新输入！";
-                    (typeof error === "function") && error.call(null, msg);
+                    (typeof error === "function") && error.call(null, keyManConstant["CONSTANTS"]["TIPS"]["ACCOUNT"]["LOGIN"]["NO_USERNAME"]);
                 }
             },
             isExists: function (name){
                 return !!storageFactory.get(name);
             },
             register: function (name, password, success, error){
-                var msg = "";
                 if (service.isExists(name)){
-                    msg = "用户名已存在，请重新输入！";
-                    (typeof error === "function") && error.call(null, msg);
+                    (typeof error === "function") && error.call(null, keyManConstant["CONSTANTS"]["TIPS"]["ACCOUNT"]["REGISTER"]["EXIST_USERNAME"]);
                 } else {
                     storageFactory.save(name, {
                         user: name,
-                        password: password,
+                        password: encryptFactory.encrypt(password),
                         list: []
                     });
-                    cookieFactory.save(keyManConstant.loginKey, name);
+                    cookieFactory.save(keyManConstant["CONSTANTS"]["LOGIN_KEY"], name);
                     (typeof success === "function") && success.call();
                 }
             },
             isExistSelectedData: function (uuid){
-                var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList;
-                for (var i = 0,l=uuids.length; i<l; i++){
+                var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList, i = 0, l = uuids.length;
+                while (i < l){
                     if (uuid === uuids[i]){
                         return {isExists: true, index: i};
                     }
+                    i++;
                 }
                 return {isExists: false};
             },
@@ -144,55 +145,50 @@ angular.module("serviceApp", [
             removeSelectedData: function (uuid){
                 var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList,
                     result = service.isExistSelectedData(uuid);
-                if (result.isExists &&
-                    typeof result.index !== "undefined"){
+                if (result.isExists && typeof result.index !== "undefined"){
                     uuids.splice(result.index, 1);
                 }
             },
             resetShowDataList: function (){
                 var uuids = $rootScope.localStorage.currentUserData.selectedUUIDList,
-                    showDataList = $rootScope.localStorage.currentUserData.selectedDataList = [];
-
-                for (var i= 0,l=uuids.length; i<l; i++){
-                    var item = service.getItemByUuid(uuids[i]);
+                    showDataList = $rootScope.localStorage.currentUserData.selectedDataList = [], i = 0, l = uuids.length;
+                while (i < l){
+                    var item = service.getItemByUuid(uuids[i]).item;
                     item && showDataList.push(item);
+                    i++;
                 }
             },
             exportAllData: function (success){
-                var options = $rootScope.localStorage.exportOptions,
+                var options = keyManConstant["CONSTANTS"]["EXPORT_OPTIONS"],
                     user = $rootScope.localStorage.currentUserData.loginName,
-                    fileName = options.fileNameStart + options.splitter + user + options.endPrefix,
+                    fileName = options["FILENAME_START"] + options["SPLITTER"] + user + options["END_PREFIX"],
                     items = storageFactory.get(user);
-
                 downloadFactory.exportAllData(fileName, items, function (){
-                    (typeof success === "function") && success.call(null, fileName);
+                    (typeof success === "function") && success.call(null, keyManConstant["CONSTANTS"]["TIPS"]["FILE"]["EXPORT"]["EXPORT_SUCCESS"]);
                 });
             },
             importData: function (fileObject, success, error){
                 var reader = new FileReader(),
-                    options = $rootScope.localStorage.importOptions,
-                    csvType = options.fileType,
-                    prefix = options.fileNameStart,
+                    options = keyManConstant["CONSTANTS"]["IMPORT_OPTIONS"],
+                    csvType = options["FILE_TYPE"],
+                    prefix = options["FILENAME_START"],
                     fileName = fileObject.name,
-                    msg = "";
+                    importTips = keyManConstant["CONSTANTS"]["TIPS"]["FILE"]["IMPORT"];
                 // 引入错误的文件
                 if (csvType !== fileObject.type && !stringFactory.isStartWith(fileName, prefix)){
-                    msg = "请选择正确的以keyManData开头的csv数据文件!";
-                    (typeof error === "function") && (error.call(null, msg));
+                    (typeof error === "function") && (error.call(null, importTips["ERROR_TYPE_FILE"]));
                     return;
                 }
                 reader.onload = function (file){
                     var content = file.currentTarget.result;
                     if (!content){
-                        msg = "数据文件内容为空!";
-                        (typeof error === "function") && (error.call(null, msg));
+                        (typeof error === "function") && (error.call(null, importTips["EMPTY_CONTENT_FILE"]));
                         return;
                     }
                     try {
                         content = JSON.parse(content);
                     } catch(e) {
-                        msg = "数据文件已损坏!";
-                        (typeof error === "function") && (error.call(null, msg));
+                        (typeof error === "function") && (error.call(null, importTips["ERROR_CONTENT_FILE"]));
                     }
                     storageFactory.save(content.user, content);
                     (typeof success === "function") && (success.call());

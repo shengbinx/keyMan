@@ -2,7 +2,7 @@ angular.module("controllerApp", [
     "constantApp",
     "filterApp",
     "serviceApp"
-]).controller("dataCtrl", ["$scope", "$rootScope", "userService", function ($scope, $rootScope, userService){
+]).controller("dataCtrl", ["$scope", "$rootScope", "userService", "keyManConstant", function ($scope, $rootScope, userService, keyManConstant){
     $scope.entity = {};
     $scope.hideAddDataViewFn = function (){
         $rootScope.localStorage.viewStatus.hideAddDataView = true;
@@ -12,7 +12,7 @@ angular.module("controllerApp", [
             $rootScope.localStorage.gridOptions.data = data;
             $rootScope.localStorage.currentUserData.selectedUUIDList = [];
             $rootScope.localStorage.viewStatus.hideAddDataView = true;
-            alert("添加成功！");
+            alert(keyManConstant["CONSTANTS"]["TIPS"]["DATA"]["ADD"]["ADD_DATA_SUCCESS"]);
         });
     };
 }]).controller("showDataCtrl", ["$scope", "$rootScope", function ($scope, $rootScope){
@@ -24,7 +24,7 @@ angular.module("controllerApp", [
         userService.quit(function (){
             $rootScope.localStorage = angular.copy(keyManConstant.localStorage);
             $rootScope.localStorage.viewStatus.viewActType = "login";
-            alert("注销成功！");
+            alert(keyManConstant["CONSTANTS"]["TIPS"]["ACCOUNT"]["QUIT"]["QUIT_SUCCESS"]);
         });
     };
     $scope.showAddView = function (){
@@ -33,7 +33,7 @@ angular.module("controllerApp", [
     };
     $scope.deleteSelected = function (){
         if (!$rootScope.localStorage.currentUserData.selectedUUIDList.length){
-            alert("请先选择要删除的数据！");
+            alert(keyManConstant["CONSTANTS"]["TIPS"]["DATA"]["DELETE"]["NO_SELECTED_DATA"]);
             return;
         }
         userService.deleteSelected($rootScope.localStorage.currentUserData.loginName, function (data){
@@ -43,17 +43,17 @@ angular.module("controllerApp", [
     };
     $scope.showSelected = function (){
         if (!$rootScope.localStorage.currentUserData.selectedDataList.length){
-            alert("请先选择要查看的数据！");
+            alert(keyManConstant["CONSTANTS"]["TIPS"]["DATA"]["SHOW"]["NO_SELECTED_DATA"]);
             return;
         }
         $rootScope.localStorage.viewStatus.hideSelectedDataView = false;
     };
     $scope.exportAllData = function (){
-        userService.exportAllData(function (fileName){
-            alert("文件已成功导出，请到路径C:\\Users\\CurrentUser\\Downloads\\" + fileName + "中进行查看。");
+        userService.exportAllData(function (msg){
+            alert(msg);
         });
     };
-}]).controller("loginCtrl", ["$scope", "$rootScope", "userService", function ($scope, $rootScope, userService){
+}]).controller("loginCtrl", ["$scope", "$rootScope", "userService", "keyManConstant", function ($scope, $rootScope, userService, keyManConstant){
     $scope.entity = {};
     $scope.toRegisterViewFn = function (){
         $scope.entity = {};
@@ -82,7 +82,7 @@ angular.module("controllerApp", [
         if (target && target.files && target.files.length === 1){
             var fileObject = target.files[0];
             userService.importData(fileObject, function (){
-                alert("数据导入成功，请登录！");
+                alert(keyManConstant["CONSTANTS"]["TIPS"]["FILE"]["IMPORT"]["IMPORT_SUCCESS"]);
                 setTimeout(function (){
                     $rootScope.$apply(function (){
                         $rootScope.localStorage.viewStatus.hideImportFileView = true;
@@ -94,7 +94,7 @@ angular.module("controllerApp", [
         }
         return false;
     };
-}]).controller("registerCtrl", ["$scope", "$rootScope", "userService", function ($scope, $rootScope, userService){
+}]).controller("registerCtrl", ["$scope", "$rootScope", "userService", "keyManConstant", function ($scope, $rootScope, userService, keyManConstant){
     $scope.entity = {};
     $scope.toLoginViewFn = function (){
         $scope.entity = {};
@@ -107,8 +107,7 @@ angular.module("controllerApp", [
             $scope.entity = {};
             $rootScope.localStorage.currentUserData.loginName = name;
             $rootScope.localStorage.viewStatus.viewActType = "main";
-
-            alert("注册成功！");
+            alert(keyManConstant["CONSTANTS"]["TIPS"]["ACCOUNT"]["REGISTER"]["REGISTER_SUCCESS"]);
         }, function (msg){
             alert(msg);
         });
