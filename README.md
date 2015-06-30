@@ -2,15 +2,15 @@
 
 一款基于本地存储用于管理帐号和密码的chrome浏览器扩展程序。
 
-## keyMan能做什么？
+## What keyMan can do？
 
 它能管理你所有的帐号和密码，而且能导出你的所有数据，并且能在你需要的时候进行导入。
 
-## keyMan安全么？
+## Is keyMan safe？
 
 keyMan存储的所有密码都是以加密的形式存储在本地中的。
 
-## 安装方法？
+## How to install it？
 
 由于keyMan暂时没有发布到chrome发布者应用商店中。所以你只有以开发者模式安装它：
 
